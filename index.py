@@ -405,19 +405,13 @@ def sair():
 def cientifico():
     janela_principal.resizable(width=False, height=False)
     janela_principal.geometry("944x568+0+0")
-  
-  
-def padrao():
-    janela_principal.resizable(width=False, height=False)
-    janela_principal.geometry("480x568+0+0")
-  
+
 aba_menu= Menu(calc)
   
 
 menu_arquivo = Menu(calc, tearoff = 0)
 aba_menu.add_cascade(label = 'Arquivo', menu = menu_arquivo)
 menu_arquivo.add_command(label = "Cientifico", command = cientifico)
-menu_arquivo.add_command(label = "Padrao", command = padrao)
 menu_arquivo.add_separator()
 menu_arquivo.add_command(label = "Sair", command = sair)
   
