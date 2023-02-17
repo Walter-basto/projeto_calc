@@ -1,10 +1,10 @@
-from tkinter import * #biblioteca de interface grafica
-import math           #biblioteca de operação matematica
-import tkinter.messagebox#biblioteca de interface grafica caixa de menssagem
-janela_principal= Tk()  # a variavel janela_principal recebe a função tkinter 
-janela_principal.title("Calculadora Cientifica")# objeto da variavel janela_principal recebe a função titulo
+from tkinter import * 
+import math           
+import tkinter.messagebox
+janela_principal= Tk() 
+janela_principal.title("Calculadora Cientifica")
 janela_principal.resizable(width=False, height=False)
-janela_principal.geometry("480x568+450+90")# objeto da variavel janela_principal recebe a dimensoes da janela
+janela_principal.geometry("480x568+450+90")
 
 calc = Frame(janela_principal)
 calc.grid()
@@ -18,25 +18,25 @@ class Calc():
         self.op=''
         self.result=False
   
-    def numberEnter(self, num):
+    def entrada_numero(self, num):                                  
         self.result=False
-        firstnum=txtDisplay.get()
-        secondnum=str(num)
+        primeiro_numero=txtDisplay.get()
+        segundo_numero=str(num)
         if self.input_value:
-            self.current = secondnum
+            self.current = segundo_numero
             self.input_value=False
         else:
-            if secondnum == '.':
-                if secondnum in firstnum:
+            if segundo_numero == '.':
+                if segundo_numero in primeiro_numero:
                     return
-            self.current = firstnum+secondnum
+            self.current = segundo_numero + primeiro_numero
         self.display(self.current)
   
-    def sum_of_total(self):
+    def soma_total(self):                                                     
         self.result=True
         self.current=float(self.current)
         if self.check_sum==True:
-            self.valid_function()
+            self.validar_funcao()                                     
         else:
             self.total=float(txtDisplay.get())
   
@@ -44,7 +44,7 @@ class Calc():
         txtDisplay.delete(0, END)
         txtDisplay.insert(0, value)
   
-    def valid_function(self):
+    def validar_funcao(self):                                         
         if self.op == "add":
             self.total += self.current
         if self.op == "sub":
@@ -59,25 +59,25 @@ class Calc():
         self.check_sum=False
         self.display(self.total)
   
-    def operation(self, op):
+    def operacao(self, op):                                     
         self.current = float(self.current)
         if self.check_sum:
-            self.valid_function()
+            self.validar_funcao()         
         elif not self.result:
             self.total=self.current
             self.input_value=True
-        self.check_sum=True
-        self.op=op
-        self.result=False
+            self.check_sum=True
+            self.op=op
+            self.result=False
   
-    def Clear_Entry(self):
+    def limpa_numero(self):         
         self.result = False
         self.current = "0"
         self.display(0)
         self.input_value=True
   
-    def All_Clear_Entry(self):
-        self.Clear_Entry()
+    def limpa_numero_tudo(self):
+        self.limpa_numero()              
         self.total=0
   
     def pi(self):
@@ -187,29 +187,27 @@ class Calc():
   
 added_value = Calc()
   
-txtDisplay = Entry(calc, font=('Helvetica',20,'bold'),
-                   bg='black',fg='white',
-                   bd=30,width=28,justify=RIGHT)
+txtDisplay = Entry(calc, font=('Helvetica',20,'bold'),bg='black',fg='white',bd=30,width=28,justify=RIGHT)
 txtDisplay.grid(row=0,column=0, columnspan=4, pady=1)
 txtDisplay.insert(0,"0")
   
 numero_tela = "789456123"
 i=0
-btn = []
+botao_numerico = []
 for j in range(2,5):
     for k in range(3):
-        btn.append(Button(calc, width=6, height=2,
+        botao_numerico .append(Button(calc, width=6, height=2,
                           bg='black',fg='white',
                           font=('Helvetica',20,'bold'),
                           bd=4,text=numero_tela[i]))
-        btn[i].grid(row=j, column= k, pady = 1)
-        btn[i]["command"]=lambda x=numero_tela[i]:added_value.numberEnter(x)
+        botao_numerico [i].grid(row=j, column= k, pady = 1)
+        botao_numerico [i]["command"]=lambda x=numero_tela[i]:added_value.entrada_numero(x)                
         i+=1
         
 botao_limpar = Button(calc, text=chr(67),width=6,
                   height=2,bg='blue',
                   font=('Helvetica',20,'bold')
-                  ,bd=4, command=added_value.Clear_Entry
+                  ,bd=4, command=added_value.limpa_numero          
                  ).grid(row=1, column= 0, pady = 1)
   
 botao_limpar_tudo = Button(calc, text=chr(67)+chr(69),
@@ -217,7 +215,7 @@ botao_limpar_tudo = Button(calc, text=chr(67)+chr(69),
                      bg='blue', 
                      font=('Helvetica',20,'bold'),
                      bd=4,
-                     command=added_value.All_Clear_Entry
+                     command=added_value.limpa_numero_tudo
                     ).grid(row=1, column= 1, pady = 1)
   
 botao_raiz = Button(calc, text="\u221A",width=6, height=2,
@@ -229,37 +227,37 @@ botao_raiz = Button(calc, text="\u221A",width=6, height=2,
 botao_Adicao = Button(calc, text="+",width=6, height=2,
                 bg='blue',
                 font=('Helvetica',20,'bold'),
-                bd=4,command=lambda:added_value.operation("add")
+                bd=4,command=lambda:added_value.operacao("add")        
                 ).grid(row=1, column= 3, pady = 1)
   
 botao_Subtracao = Button(calc, text="-",width=6,
                 height=2,bg='blue',
                 font=('Helvetica',20,'bold'),
-                bd=4,command=lambda:added_value.operation("sub")
+                bd=4,command=lambda:added_value.operacao("sub")        
                 ).grid(row=2, column= 3, pady = 1)
   
 botao_Multiplicacao = Button(calc, text="x",width=6, 
                 height=2,bg='blue', 
                 font=('Helvetica',20,'bold'),
-                bd=4,command=lambda:added_value.operation("multi")
+                bd=4,command=lambda:added_value.operacao("multi")     
                 ).grid(row=3, column= 3, pady = 1)
   
 botao_Divisao = Button(calc, text="/",width=6, 
                 height=2,bg='blue',
                 font=('Helvetica',20,'bold'),
-                bd=4,command=lambda:added_value.operation("divide")
+                bd=4,command=lambda:added_value.operacao("divide")     
                 ).grid(row=4, column= 3, pady = 1)
   
 botao_Zero = Button(calc, text="0",width=6,
                  height=2,bg='black',fg='white',
                  font=('Helvetica',20,'bold'),
-                 bd=4,command=lambda:added_value.numberEnter(0)
+                 bd=4,command=lambda:added_value.entrada_numero(0)                     
                  ).grid(row=5, column= 0, pady = 1)
   
-botao_Dot = Button(calc, text=".",width=6,
+botao_ponto = Button(calc, text=".",width=6,
                 height=2,bg='blue', 
                 font=('Helvetica',20,'bold'),
-                bd=4,command=lambda:added_value.numberEnter(".")
+                bd=4,command=lambda:added_value.entrada_numero(".")                      
                 ).grid(row=5, column= 1, pady = 1)
 botao_PM = Button(calc, text=chr(177),width=6, 
                height=2,bg='blue', font=('Helvetica',20,'bold'),
@@ -269,9 +267,9 @@ botao_PM = Button(calc, text=chr(177),width=6,
 botao_resultado = Button(calc, text="=",width=6,
                    height=2,bg='blue',
                    font=('Helvetica',20,'bold'),
-                   bd=4,command=added_value.sum_of_total
+                   bd=4,command=added_value.soma_total                        
                   ).grid(row=5, column= 3, pady = 1)
-# ROW 1 :
+
 botao_Pi = Button(calc, text="pi",width=6,
                height=2,bg='red',fg='white', 
                font=('Helvetica',20,'bold'),
@@ -296,7 +294,7 @@ botao_sen = Button(calc, text="sin",width=6,
                 bd=4,command=added_value.sin
                ).grid(row=1, column= 7, pady = 1)
   
-# ROW 2 :
+
 botao_2xPi = Button(calc, text="2xpi",width=6, 
                 height=2,bg='red',fg='white',
                 font=('Helvetica',20,'bold'),
@@ -321,7 +319,7 @@ botao_2xsen = Button(calc, text="2xsin",width=6,
                  bd=4,command=added_value.sinh
                 ).grid(row=2, column= 7, pady = 1)
   
-# ROW 3 :
+
 botao_log = Button(calc, text="log",width=6,
                 height=2,bg='red',fg='white',
                 font=('Helvetica',20,'bold'),
@@ -337,7 +335,7 @@ botao_Exponencial = Button(calc, text="exp",width=6, height=2,
 botao_Mod = Button(calc, text="Mod",width=6,
                 height=2,bg='red',fg='white', 
                 font=('Helvetica',20,'bold'),
-                bd=4,command=lambda:added_value.operation("mod")
+                bd=4,command=lambda:added_value.operacao("mod")        
                 ).grid(row=3, column= 6, pady = 1)
   
 botao_E   = Button(calc, text="e",width=6, 
@@ -346,7 +344,7 @@ botao_E   = Button(calc, text="e",width=6,
                 bd=4,command=added_value.e
                ).grid(row=3, column= 7, pady = 1)
   
-# ROW 4 :
+
 botao_log10 = Button(calc, text="log10",width=6, 
                   height=2,bg='red',fg='white', 
                   font=('Helvetica',20,'bold'),
@@ -370,7 +368,7 @@ botao_gamma = Button(calc, text="gamma",width=6,
                   font=('Helvetica',20,'bold'),
                   bd=4,command=added_value.lgamma
                  ).grid(row=4, column= 7, pady = 1)
-# ROW 5 :
+
 botao_log2 = Button(calc, text="log2",width=6, 
                  height=2,bg='red',fg='white',
                  font=('Helvetica',20,'bold'),
@@ -399,8 +397,7 @@ Display_cientifico= Label(calc, text = "Calculadora Cientifica",font=('Helvetica
 Display_cientifico.grid(row=0, column= 4,columnspan=4)
   
 def sair():
-    sair = tkinter.messagebox.askyesno("Calculadora Cientifica",
-                                        "Deseja sair ?")
+    sair = tkinter.messagebox.askyesno("Calculadora Cientifica","Deseja sair ?")
     if sair>0:
         janela_principal.destroy()
         return
@@ -416,7 +413,7 @@ def padrao():
   
 aba_menu= Menu(calc)
   
-# Manu parte 1 :
+
 menu_arquivo = Menu(calc, tearoff = 0)
 aba_menu.add_cascade(label = 'Arquivo', menu = menu_arquivo)
 menu_arquivo.add_command(label = "Cientifico", command = cientifico)
@@ -424,7 +421,7 @@ menu_arquivo.add_command(label = "Padrao", command = padrao)
 menu_arquivo.add_separator()
 menu_arquivo.add_command(label = "Sair", command = sair)
   
-# Manu parte  2 :
+
 menu_editar= Menu(calc, tearoff = 0)
 aba_menu.add_cascade(label = 'Editar', menu = menu_editar)
 menu_editar.add_command(label = "Recortar")
